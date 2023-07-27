@@ -1,6 +1,6 @@
 import { Router as newRouter } from "express";
-import { wrap } from "../../server/async-handler";
-import { db } from "../../db";
+import { wrap } from "@/server/async-handler";
+import { db } from "@/db";
 
 /**
  * The router for the user route.

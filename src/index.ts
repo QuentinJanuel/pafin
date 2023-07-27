@@ -1,3 +1,5 @@
+import "module-alias/register";
+
 import { getNumber } from "./env";
 import { logger } from "./logger";
 import { app } from "./server";
