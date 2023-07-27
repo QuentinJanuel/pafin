@@ -22,6 +22,7 @@
         "curly": ["error", "multi"],
         "lines-around-comment": "off",
         "no-undefined": "off",
+        "no-magic-numbers": "off",
         "arrow-parens": ["error", "as-needed"],
         "dot-location": ["error", "property"],
         "object-property-newline": ["error", {
