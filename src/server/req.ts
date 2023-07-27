@@ -95,18 +95,18 @@ export class Req {
         if (!authHeader)
             throw reqError(
                 HttpCode.UNAUTHORIZED,
-                "Missing Authorization header",
+                "Missing authorization header",
             );
         const [type, token] = authHeader.split(" ");
         if (type !== "Bearer")
             throw reqError(
                 HttpCode.UNAUTHORIZED,
-                "Invalid Authorization header",
+                "Invalid authorization header",
             );
         if (!token)
             throw reqError(
                 HttpCode.UNAUTHORIZED,
-                "Missing token in Authorization header",
+                "Missing token in authorization header",
             );
         return token;
     }

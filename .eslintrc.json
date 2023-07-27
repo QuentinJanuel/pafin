@@ -1,8 +1,7 @@
 {
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "eslint:all"
+        "eslint:all",
+        "plugin:@typescript-eslint/recommended"
     ],
     "env": {
         "node": true
@@ -15,6 +14,8 @@
         "sort-keys": "off",
         "sort-vars": "off",
         "no-shadow": "off",
+        "max-statements": "off",
+        "max-lines-per-function": "off",
         "array-element-newline": ["error", "consistent"],
         "@typescript-eslint/no-shadow": "error",
         "no-unused-vars": "off",

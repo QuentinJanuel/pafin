@@ -2,10 +2,6 @@
 
 ## Setup
 
-```bash
-cp .env.example .env
-```
-
 ## Running the project
 
 ```bash

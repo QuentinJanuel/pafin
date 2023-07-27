@@ -1,26 +1,26 @@
-version: '3.1'
-services:
-  node:
-    restart: always
-    build: .
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app
-    depends_on:
-      db:
-        condition: service_healthy
+version: '3.0'
+
+services: 
   db:
     image: postgres:9.6
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: prod_user
+      POSTGRES_PASSWORD: prod_pass
+      POSTGRES_DB: prod_db
     ports:
       - 5432:5432
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    volumes:
+      - app-volume:/var/lib/postgresql/data
+  db-test:
+    image: postgres:9.6
+    restart: always
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+      POSTGRES_DB: test_db
+    ports:
+      - 5433:5432
+
+volumes:
+  app-volume:
