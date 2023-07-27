@@ -1,0 +1,22 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "eslint:all"
+    ],
+    "env": {
+        "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "root": true,
+    "rules": {
+        "nonblock-statement-body-position": ["error", "below"],
+        "curly": ["error", "multi"],
+        "quote-props": ["error", "as-needed"],
+        "padded-blocks": ["error", "never"],
+        "function-call-argument-newline": ["error", "consistent"],
+        "one-var": ["error", "never"],
+        "object-curly-spacing": ["error", "always"]
+    }
+}
