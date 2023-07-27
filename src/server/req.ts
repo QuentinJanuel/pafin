@@ -87,34 +87,51 @@ export class Req {
     }
 
     /**
-     * Gets the value of a route parameter, or returns undefined if the
-     * parameter is not defined.
-     * @param key The name of the route parameter.
-     * @returns The value of the route parameter or undefined.
+     * Gets the Bearer token from the Authorization header,
+     * or throws an error if anything goes wrong.
      */
-    public getParamMaybe (key: string): string | undefined {
-        const value = this.req.params[key];
-        if (!value || typeof value !== "string")
-            return undefined;
-        if (value.trim() === "")
-            return undefined;
-        return value ?? undefined;
+    public getBearerToken (): string {
+        const authHeader = this.req.headers.authorization;
+        if (!authHeader)
+            throw reqError(
+                HttpCode.UNAUTHORIZED,
+                "Missing Authorization header",
+            );
+        const [type, token] = authHeader.split(" ");
+        if (type !== "Bearer")
+            throw reqError(
+                HttpCode.UNAUTHORIZED,
+                "Invalid Authorization header",
+            );
+        if (!token)
+            throw reqError(
+                HttpCode.UNAUTHORIZED,
+                "Missing token in Authorization header",
+            );
+        return token;
     }
 
     /**
-     * Gets the value of a route parameter, or throws an error if the
-     * parameter is not defined.
-     * @param key The name of the route parameter.
-     * @returns The value of the route parameter.
-     * @throws An error if the route parameter is not defined.
+     * Attaches the user id to the request.
+     * @param id The user id.
      */
-    public getParam (key: string): string {
-        const value = this.getParamMaybe(key);
-        if (value === undefined)
+    public setUserId (id: string): void {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this.req as any).userId = id;
+    }
+
+    /**
+     * Gets the user id from the request.
+     * @returns The user id.
+     */
+    public getUserId (): string {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const id = (this.req as any).userId;
+        if (!id)
             throw reqError(
-                HttpCode.BAD_REQUEST,
-                `Missing route parameter: ${key}`,
+                HttpCode.UNAUTHORIZED,
+                "Missing user id",
             );
-        return value;
+        return id;
     }
 }

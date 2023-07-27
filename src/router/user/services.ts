@@ -2,16 +2,18 @@ import { db } from "@/db";
 import { wrap } from "@/server/async-handler";
 import { HttpCode } from "@/server/http-code";
 import {
+    validateCreds,
     validateEmail,
     validateName,
     validatePassword,
 } from "./utils";
 import { runMaybe } from "@/utils";
+import { getToken } from "@/auth";
 
 /**
- * Creates a user.
+ * Registers a new user.
  */
-export const createUser = wrap(async (req, res) => {
+export const register = wrap(async (req, res) => {
     const name = req.getBody("name");
     const email = req.getBody("email");
     const rawPassword = req.getBody("password");
@@ -22,11 +24,29 @@ export const createUser = wrap(async (req, res) => {
         select: { id: true },
         data: { name, email, password },
     });
+    const token = getToken(id);
     res
         .status(HttpCode.CREATED)
         .json({
             message: "Successfully created user",
             id,
+            token,
+        });
+});
+
+/**
+ * Logs in a user.
+ */
+export const login = wrap(async (req, res) => {
+    const email = req.getBody("email");
+    const password = req.getBody("password");
+    const id = await validateCreds(email, password);
+    const token = getToken(id);
+    res
+        .json({
+            message: "Successfully logged in",
+            id,
+            token,
         });
 });
 
@@ -34,7 +54,7 @@ export const createUser = wrap(async (req, res) => {
  * Gets a user.
  */
 export const getUser = wrap(async (req, res) => {
-    const id = req.getParam("id");
+    const id = req.getUserId();
     const user = await db.user.findUnique({
         select: {
             id: true,
@@ -51,7 +71,7 @@ export const getUser = wrap(async (req, res) => {
  * Updates a user.
  */
 export const updateUser = wrap(async (req, res) => {
-    const id = req.getParam("id");
+    const id = req.getUserId();
     const name = req.getBodyMaybe("name");
     const email = req.getBodyMaybe("email");
     const rawPassword = req.getBodyMaybe("password");
@@ -70,7 +90,7 @@ export const updateUser = wrap(async (req, res) => {
  * Deletes a user.
  */
 export const deleteUser = wrap(async (req, res) => {
-    const id = req.getParam("id");
+    const id = req.getUserId();
     await db.user.delete({
         where: { id },
     });

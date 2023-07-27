@@ -15,6 +15,7 @@
         "sort-keys": "off",
         "sort-vars": "off",
         "no-shadow": "off",
+        "array-element-newline": ["error", "consistent"],
         "@typescript-eslint/no-shadow": "error",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",

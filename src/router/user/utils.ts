@@ -61,23 +61,23 @@ export const validatePassword = (password: string) => {
 
 /**
  * Checks the credentials and returns the user id if they are valid.
- * @param name The name to check.
+ * @param email The email to check.
  * @param password The password to check.
  * @throws An error if the credentials are invalid.
  */
 export const validateCreds = async (
-    name: string,
+    email: string,
     password: string,
 ): Promise<string> => {
-    const user = await db.user.findFirst({
+    const user = await db.user.findUnique({
         select: { id: true, password: true },
-        where: { name },
+        where: { email },
     });
     if (user === null)
-        throw badReq("Unexisting name");
+        throw badReq("Unexisting email");
     const hash = user.password;
     const matches = await bcrypt.compare(password, hash);
     if (!matches)
-        throw badReq("Wrong name or password");
+        throw badReq("Wrong email or password");
     return user.id;
 };
