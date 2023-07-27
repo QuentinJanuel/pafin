@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
+  },
+  "name": "pafin-code-assignment",
+  "version": "1.0.0",
+  "description": "Backend data handling",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "rimraf dist && tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuentinJanuel/pafin.git"
+  },
+  "author": "Quentin Januel Capellini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/QuentinJanuel/pafin/issues"
+  },
+  "homepage": "https://github.com/QuentinJanuel/pafin#readme"
+}
