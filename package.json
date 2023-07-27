@@ -6,9 +6,10 @@
   "scripts": {
     "start": "rimraf dist && tsc && node dist/index.js",
     "lint": "eslint . --ext .ts",
-    "format": "eslint . --ext .ts --fix"
+    "format": "eslint . --ext .ts --fix && npx prisma format"
   },
   "dependencies": {
+    "@prisma/client": "^5.0.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "tslog": "^4.8.2"
@@ -18,6 +19,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
     "eslint": "^8.45.0",
+    "prisma": "^5.0.0",
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
   },

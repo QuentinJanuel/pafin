@@ -5,14 +5,19 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package*.json ./
-
 RUN npm install
 
 # Bundle app source
 COPY . .
 
+# Make the start.sh file executable
+RUN chmod +x ./start.sh
+
+# Setup prisma
+RUN npx prisma generate
+
 # Expose port 3000
 EXPOSE 3000
 
 # Run the app
-CMD [ "npm", "start" ]
+CMD [ "./start.sh" ]

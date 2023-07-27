@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
   node:
     restart: always
@@ -8,7 +8,8 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     image: postgres:9.6
     restart: always
@@ -18,3 +19,8 @@ services:
       POSTGRES_DB: postgres
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
