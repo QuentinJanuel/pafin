@@ -6,11 +6,9 @@ import { HttpCode } from "@/server/http-code";
  * Creates a user.
  */
 export const createUser = wrap(async (req, res) => {
-    const { name, email, password } = req.body as {
-        name: string;
-        email: string;
-        password: string;
-    };
+    const name = req.getBody("name");
+    const email = req.getBody("email");
+    const password = req.getBody("password");
     await db.user.create({
         data: { name, email, password },
     });
@@ -23,7 +21,7 @@ export const createUser = wrap(async (req, res) => {
  * Gets a user.
  */
 export const getUser = wrap(async (req, res) => {
-    const { id } = req.params;
+    const id = req.getParam("id");
     const user = await db.user.findUnique({
         select: {
             id: true,
@@ -39,8 +37,9 @@ export const getUser = wrap(async (req, res) => {
  * Updates a user.
  */
 export const updateUser = wrap(async (req, res) => {
-    const { id } = req.params;
-    const { name, email } = req.body as { name: string; email: string };
+    const id = req.getParam("id");
+    const name = req.getBodyMaybe("name");
+    const email = req.getBodyMaybe("email");
     await db.user.update({
         data: { name, email },
         where: { id },
@@ -53,7 +52,7 @@ export const updateUser = wrap(async (req, res) => {
  * Deletes a user.
  */
 export const deleteUser = wrap(async (req, res) => {
-    const { id } = req.params;
+    const id = req.getParam("id");
     await db.user.delete({
         where: { id },
     });

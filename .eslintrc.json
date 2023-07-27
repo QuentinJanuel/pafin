@@ -20,6 +20,8 @@
         "@typescript-eslint/no-unused-vars": "error",
         "nonblock-statement-body-position": ["error", "below"],
         "curly": ["error", "multi"],
+        "lines-around-comment": "off",
+        "no-undefined": "off",
         "arrow-parens": ["error", "as-needed"],
         "dot-location": ["error", "property"],
         "object-property-newline": ["error", {

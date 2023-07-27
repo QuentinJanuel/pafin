@@ -5,13 +5,14 @@ import type {
 } from "express-serve-static-core";
 import { ReqError } from "./req-error";
 import { HttpCode } from "./http-code";
+import { Req } from "./req";
 
-type Fn<T> = (req: Request, res: Response) => T;
-type FnMiddleware<T> = (
-    req: Request,
+type Fn<T, U> = (req: T, res: Response) => U;
+type FnMiddleware<T, U> = (
+    req: T,
     res: Response,
     next: NextFunction,
-) => T;
+) => U;
 
 const errorHandler = (err: ReqError, res: Response) => {
     const code = err.code ?? HttpCode.INTERNAL;
@@ -20,15 +21,15 @@ const errorHandler = (err: ReqError, res: Response) => {
 };
 
 export const wrap = (
-    fn: Fn<Promise<void>>
-): Fn<void> => (req, res) => {
-    fn(req, res)
+    fn: Fn<Req, Promise<void>>
+): Fn<Request, void> => (req, res) => {
+    fn(new Req(req), res)
         .catch(err => errorHandler(err, res));
 };
 
 export const wrapMiddleware = (
-    fn: FnMiddleware<Promise<void>>
-): FnMiddleware<void> => (req, res, next) => {
-    fn(req, res, next)
+    fn: FnMiddleware<Req, Promise<void>>
+): FnMiddleware<Request, void> => (req, res, next) => {
+    fn(new Req(req), res, next)
         .catch(err => errorHandler(err, res));
 };
