@@ -15,8 +15,12 @@ type FnMiddleware<T, U> = (
 ) => U;
 
 const errorHandler = (err: ReqError, res: Response) => {
-    const code = err.code ?? HttpCode.INTERNAL;
-    const message = err.message ?? "Internal server error";
+    let code = err.code ?? HttpCode.INTERNAL;
+    let message = err.message ?? "Internal server error";
+    if (typeof code !== "number") {
+        code = HttpCode.INTERNAL;
+        message = "Internal server error";
+    }
     res.status(code).json({ error: message });
 };
 

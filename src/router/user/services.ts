@@ -40,8 +40,9 @@ export const updateUser = wrap(async (req, res) => {
     const id = req.getParam("id");
     const name = req.getBodyMaybe("name");
     const email = req.getBodyMaybe("email");
+    const password = req.getBodyMaybe("password");
     await db.user.update({
-        data: { name, email },
+        data: { name, email, password },
         where: { id },
     });
     res
