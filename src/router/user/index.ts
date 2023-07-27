@@ -1,16 +1,17 @@
 import { Router as newRouter } from "express";
-import { wrap } from "@/server/async-handler";
-import { db } from "@/db";
+import {
+    createUser,
+    getUser,
+    updateUser,
+    deleteUser,
+} from "./services";
 
 /**
  * The router for the user route.
  */
 export const router = newRouter();
 
-router.get(
-    "/",
-    wrap(async (_req, res) => {
-        const users = await db.user.findMany();
-        res.json({ users });
-    }),
-);
+router.post("/", createUser);
+router.get("/:id", getUser);
+router.put("/:id", updateUser);
+router.delete("/:id", deleteUser);
